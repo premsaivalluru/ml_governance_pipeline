@@ -11,3 +11,4 @@ fairlearn
 reportlab
 PyPDF2
 python-dotenv
+crewai[google-genai]

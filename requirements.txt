@@ -1,0 +1,13 @@
+streamlit
+crewai
+plotly
+pandas
+numpy
+xgboost
+scikit-learn
+shap
+evidently
+fairlearn
+reportlab
+PyPDF2
+python-dotenv

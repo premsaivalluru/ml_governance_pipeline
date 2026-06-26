@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ML Governance Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app" id="app">
+
+    <!-- ── Header ─────────────────────────────────────────────────────── -->
+    <header class="header">
+      <div class="header-left">
+        <h1>ML Governance <span class="accent">Pipeline</span></h1>
+        <p>4-agent sequential audit framework · LangGraph-style execution</p>
+      </div>
+      <span class="badge">GOVERNANCE v1.0</span>
+    </header>
+
+    <!-- ── Pipeline diagram ───────────────────────────────────────────── -->
+    <section class="pipeline-wrap card" id="pipeline-diagram">
+      <div class="section-eyebrow">LangGraph Execution Pipeline</div>
+
+      <div class="pipeline-top">
+        <div class="pipe-node pipe-input" id="node-input">
+          <div class="pipe-node-label">INPUT</div>
+          <div class="pipe-node-name">User Upload<br/>model.pkl + docs</div>
+        </div>
+        <div class="pipe-arrow-down">▼</div>
+        <div class="pipe-node" id="node-extract">
+          <div class="pipe-node-label">EXTRACTION NODE</div>
+          <div class="pipe-node-name">Artifact Extraction</div>
+        </div>
+        <div class="pipe-arrow-down">▼</div>
+      </div>
+
+      <div class="pipeline-agents">
+        <div class="pipe-node" id="node-gov">
+          <div class="pipe-node-label">AGENT 01</div>
+          <div class="pipe-node-name">Governance Policy</div>
+          <div class="pipe-node-value" id="val-gov">—</div>
+        </div>
+        <div class="pipe-node" id="node-perf">
+          <div class="pipe-node-label">AGENT 02</div>
+          <div class="pipe-node-name">Performance Monitor</div>
+          <div class="pipe-node-value" id="val-perf">—</div>
+        </div>
+        <div class="pipe-node" id="node-risk">
+          <div class="pipe-node-label">AGENT 03</div>
+          <div class="pipe-node-name">Risk Analysis</div>
+          <div class="pipe-node-value" id="val-risk">—</div>
+        </div>
+      </div>
+
+      <div class="pipe-arrow-down">▼</div>
+      <div class="pipe-node" id="node-sum" style="margin: 0 auto; max-width: 260px;">
+        <div class="pipe-node-label">AGENT 04</div>
+        <div class="pipe-node-name">Governance Summarizer</div>
+        <div class="pipe-node-value" id="val-sum">—</div>
+      </div>
+
+      <div class="pipe-arrow-down">▼</div>
+      <div class="pipe-node pipe-output" id="node-output" style="margin: 0 auto; max-width: 260px;">
+        <div class="pipe-node-label">OUTPUT</div>
+        <div class="pipe-node-name" id="output-decision">Awaiting run…</div>
+      </div>
+    </section>
+
+    <!-- ── Upload form ─────────────────────────────────────────────────── -->
+    <section class="card upload-section">
+      <div class="section-eyebrow">Upload Model Package</div>
+
+      <div class="upload-row">
+        <label class="upload-zone" id="drop-model">
+          <span class="upload-icon" id="icon-model"></span>
+          <span class="upload-text" id="text-model">Drop model .pkl here or click to browse</span>
+          <span class="upload-fname" id="fname-model"></span>
+          <input type="file" id="input-model" accept=".pkl,.joblib" hidden />
+        </label>
+
+        <label class="upload-zone" id="drop-docs">
+          <span class="upload-icon" id="icon-docs"></span>
+          <span class="upload-text" id="text-docs">Optional: drop documentation (PDF / MD / TXT)</span>
+          <span class="upload-fname" id="fname-docs"></span>
+          <input type="file" id="input-docs" accept=".pdf,.md,.txt" hidden />
+        </label>
+      </div>
+
+      <div class="config-row">
+        <label class="field">
+          <span>Provider</span>
+          <select id="provider-select">
+            <option value="local">Local (no API)</option>
+            <option value="deepseek">DeepSeek</option>
+            <option value="claude">Claude</option>
+            <option value="openai">OpenAI</option>
+            <option value="gemini">Gemini</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>API Key (optional)</span>
+          <input type="text" id="input-api-key" placeholder="Paste provider API key here" />
+        </label>
+      </div>
+
+      <div id="error-bar" class="error-bar" style="display:none;"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-run" disabled>
+          <span class="btn-icon">▶</span> Run Governance Pipeline
+        </button>
+        <button class="btn btn-secondary" id="btn-download" style="display:none;">
+          Download Report
+        </button>
+      </div>
+
+      <div class="progress-wrap" id="progress-wrap" style="display:none;">
+        <div class="progress-label" id="progress-label">Initialising…</div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+    </section>
+
+    <!-- ── Results tabs ────────────────────────────────────────────────── -->
+    <section id="results-section" style="display:none;">
+      <nav class="tabs" id="tabs">
+        <button class="tab active" data-tab="overview">Overview</button>
+        <button class="tab" data-tab="performance">Performance</button>
+        <button class="tab" data-tab="governance">Governance</button>
+        <button class="tab" data-tab="risk">Risk</button>
+        <button class="tab" data-tab="summary">Summary</button>
+        <button class="tab" data-tab="raw">Raw JSON</button>
+      </nav>
+
+      <!-- Overview -->
+      <div class="tab-panel active" id="tab-overview"></div>
+      <!-- Performance -->
+      <div class="tab-panel" id="tab-performance"></div>
+      <!-- Governance -->
+      <div class="tab-panel" id="tab-governance"></div>
+      <!-- Risk -->
+      <div class="tab-panel" id="tab-risk"></div>
+      <!-- Summary -->
+      <div class="tab-panel" id="tab-summary"></div>
+      <!-- Raw -->
+      <div class="tab-panel" id="tab-raw"></div>
+    </section>
+
+  </div><!-- /.app -->
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

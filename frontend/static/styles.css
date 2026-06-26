@@ -1,0 +1,116 @@
+/* ── Modern Governance Dashboard ──────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #818cf8;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #0ea5e9;
+  --bg-dark: #0f172a;
+  --bg-light: #1e293b;
+  --bg-lighter: #334155;
+  --border: #475569;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+}
+
+html, body { height: 100%; background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1f35 100%); }
+body { font-family: var(--font-sans); color: var(--text-primary); line-height: 1.6; background-attachment: fixed; }
+
+.app { max-width: 1400px; margin: 0 auto; padding: 48px 24px; }
+
+/* ── Header ──────────────────────────────────────────────────────────────────────────── */
+.header { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+.header-left h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; background: linear-gradient(135deg, var(--primary-light), var(--info)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.header-left p { font-size: 0.95rem; color: var(--text-tertiary); font-weight: 500; }
+.accent { color: var(--primary-light); }
+.badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(99, 102, 241, 0.1); color: var(--primary-light); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(99, 102, 241, 0.2); }
+
+/* ── Cards ────────────────────────────────────────────────────────────────────────────── */
+.card { background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8)); border: 1px solid var(--border); border-radius: 12px; padding: 24px; backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05); margin-bottom: 24px; }
+.card:hover { border-color: var(--primary); box-shadow: 0 10px 15px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.section-eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--primary-light); margin-bottom: 24px; }
+
+/* ── Upload ────────────────────────────────────────────────────────────────────────────── */
+.upload-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.upload-zone { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px; border: 2px dashed var(--border); border-radius: 12px; background: rgba(99, 102, 241, 0.02); cursor: pointer; transition: all 0.2s; text-align: center; }
+.upload-zone:hover, .upload-zone.dragover { border-color: var(--primary); background: rgba(99, 102, 241, 0.08); box-shadow: inset 0 0 15px rgba(99, 102, 241, 0.1); }
+.upload-icon { font-size: 2rem; }
+.upload-text { font-size: 0.95rem; font-weight: 500; color: var(--text-secondary); }
+.upload-fname { font-size: 0.85rem; color: var(--success); font-weight: 600; margin-top: 8px; }
+
+/* ── Config ────────────────────────────────────────────────────────────────────────────── */
+.config-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; padding: 16px; background: rgba(99, 102, 241, 0.05); border-radius: 12px; border: 1px solid var(--border); }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field span { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); }
+.field input, .field select { padding: 12px; background: var(--bg-light); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-family: var(--font-sans); font-size: 0.9rem; transition: all 0.3s; }
+.field input:focus, .field select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); background: rgba(99, 102, 241, 0.02); }
+.field input::placeholder { color: var(--text-tertiary); }
+
+/* ── Buttons ──────────────────────────────────────────────────────────────────────────── */
+.btn-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.btn { padding: 12px 24px; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.btn-primary:hover:not(:disabled) { background: linear-gradient(135deg, var(--primary-dark), #4338ca); transform: translateY(-2px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-secondary { background: var(--bg-light); color: var(--text-primary); border: 1px solid var(--border); }
+.btn-secondary:hover:not(:disabled) { background: var(--bg-lighter); border-color: var(--primary); }
+
+/* ── Progress ─────────────────────────────────────────────────────────────────────────── */
+.progress-wrap { margin: 16px 0; padding: 16px; background: rgba(99, 102, 241, 0.05); border-radius: 12px; border: 1px solid var(--border); }
+.progress-label { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 12px; }
+.progress-track { width: 100%; height: 8px; background: var(--bg-light); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--info)); width: 0; transition: width 0.3s ease; border-radius: 4px; box-shadow: 0 0 10px rgba(99, 102, 241, 0.5); }
+
+/* ── Error Bar ────────────────────────────────────────────────────────────────────────── */
+.error-bar { padding: 12px 16px; background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); border-radius: 8px; color: #fca5a5; font-size: 0.9rem; margin-bottom: 16px; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── Tabs ─────────────────────────────────────────────────────────────────────────────── */
+.tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border); margin-bottom: 24px; flex-wrap: wrap; }
+.tab { padding: 12px 24px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-secondary); cursor: pointer; font-size: 0.95rem; font-weight: 600; transition: all 0.3s; }
+.tab:hover { color: var(--text-primary); }
+.tab.active { color: var(--primary-light); border-bottom-color: var(--primary-light); }
+.tab-panel { display: none; animation: fadeIn 0.3s ease; }
+.tab-panel.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Pipeline Diagram ─────────────────────────────────────────────────────────────────── */
+.pipeline-wrap { text-align: center; }
+.pipeline-top, .pipeline-agents { display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.pipeline-agents { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 24px 0; }
+.pipe-node { background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(59, 130, 246, 0.05)); border: 1.5px solid var(--primary); border-radius: 12px; padding: 24px; text-align: center; transition: all 0.3s; }
+.pipe-node:hover { background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(59, 130, 246, 0.1)); box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); transform: scale(1.05); }
+.pipe-node-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--primary-light); margin-bottom: 8px; letter-spacing: 0.5px; }
+.pipe-node-name { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+.pipe-node-value { margin-top: 16px; font-size: 1.25rem; font-weight: 700; color: var(--primary-light); }
+.pipe-input { border-color: var(--success); }
+.pipe-output { border-color: var(--primary-light); }
+.pipe-arrow-down { color: var(--text-tertiary); font-size: 1.5rem; }
+
+/* ── Results Section ──────────────────────────────────────────────────────────────────── */
+#results-section { margin-top: 48px; }
+
+/* ── Responsive ────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .app { padding: 24px 16px; }
+  .header { grid-template-columns: 1fr; gap: 16px; }
+  .header-left h1 { font-size: 1.8rem; }
+  .pipeline-agents { grid-template-columns: 1fr; }
+  .upload-row { grid-template-columns: 1fr; }
+  .config-row { grid-template-columns: 1fr; }
+  .tabs { gap: 0; }
+  .tab { padding: 12px; font-size: 0.85rem; }
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-light); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-light); }

@@ -151,17 +151,29 @@ with st.sidebar:
     )
     
     # Detect default API keys
-    default_key = ""
-    if provider == "Gemini":
-        default_key = os.getenv("GEMINI_API_KEY", "")
-    elif provider == "DeepSeek (OpenRouter)":
-        default_key = os.getenv("OPENROUTER_API_KEY", "")
+    #default_key = ""
+    #if provider == "Gemini":
+        #default_key = os.getenv("GEMINI_API_KEY", "")
+    #elif provider == "DeepSeek (OpenRouter)":
+        #default_key = os.getenv("OPENROUTER_API_KEY", "")
         
-    api_key = st.text_input(
-        f"Enter {provider} API Key",
-        value=default_key,
-        type="password"
+    #api_key = st.text_input(
+        #f"Enter {provider} API Key",
+        #value=default_key,
+        #type="password"
+    #)
+    # If user enters a key, use it.
+    # Otherwise use the server-side secret.
+    user_api_key = st.text_input(
+        f"Enter {provider} API Key (optional)",
+        type="password",
+        placeholder="Leave blank to use server key"
     )
+
+    if provider == "Gemini":
+        api_key = user_api_key or st.secrets["GEMINI_API_KEY"]
+    else:
+        api_key = user_api_key or st.secrets["OPENROUTER_API_KEY"]
     
     # Upload assets
     st.markdown("### Upload Model Assets")
